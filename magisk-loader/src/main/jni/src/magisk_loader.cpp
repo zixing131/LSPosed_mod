@@ -153,6 +153,14 @@ void MagiskLoader::OnNativeForkSystemServerPost(JNIEnv *env) {
         close(dex_fd);
         instance->HookBridge(*this, env);
 
+        // Homles can detect map scanning
+        auto path = std::string("/proc/self/maps");
+        auto maps = std::unique_ptr<FILE, decltype(&fclose)>{fopen(path.c_str(), "r"), &fclose};
+        char *line = nullptr;
+        size_t len = 0;
+        getline(&line, &len, maps.get());
+        free(line);
+
         // always inject into system server
         InitArtHooker(env, initInfo);
         InitHooks(env);
