@@ -27,7 +27,7 @@ adb shell su -c cp /data/adb/modules/zygisk_lsposed/manager.apk /data/local/tmp 
 2. LSPosed manager will automatically save logs of the previous user session. Taking good advantage of the feature can help maintainers to find out a specific bug introduced in some single commit.
 3. In case that the LSPosed manager still cannot be opened, we need to the following logs (file `lsposed.log`) from `adb logcat`:
 ```
-adb logcat -s Magisk lspd nativeloader AndroidRuntime LSPosed  LSPosed-Bridge LSPlant LSPosedContext zygisk64 LSPlt Dobby LSPosedService '*:F' > lsposed.log
+adb logcat -s Magisk lspd nativeloader AndroidRuntime LSPosed LSPosed-Bridge LSPlant LSPosedContext LSPlt LSPosedService Dobby '*:F' zygiskd64 zygisk-core64 zygisk-ptrace64 zygiskd32 zygisk-core32 zygisk-ptrace32 > lsposed.log
 ```
 4. The above `adb logcat` command is meant to capture the booting logs of LSPosed. Hence, one should connect the device with computer, authorize the `adb` connection, run `adb reboot`, and finally run the previous `adb logcat` command once the phone screen turns on.
 
