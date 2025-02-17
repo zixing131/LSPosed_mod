@@ -131,11 +131,15 @@ int main(int argc, char **argv) {
         putenv((char *)libenv);
     }
 
-    // Set LD_PRELOAD to load liboat_hook.so
-    const int STRING_BUFFER = 50;
-    char env_str[STRING_BUFFER];
-    snprintf(env_str, STRING_BUFFER, "LD_PRELOAD=/proc/%d/fd/%d", getpid(), hooker_fd);
-    putenv(env_str);
+    if (hooker_fd > 0) {
+        // Set LD_PRELOAD to load liboat_hook.so
+        const int STRING_BUFFER = 50;
+        char env_str[STRING_BUFFER];
+        snprintf(env_str, STRING_BUFFER, "LD_PRELOAD=/proc/%d/fd/%d", getpid(), hooker_fd);
+        putenv(env_str);
+    } else {
+        LOGE("Unable to read liboat_hook.so");
+    }
 
     fexecve(stock_fd, (char **)new_argv, environ);
 
